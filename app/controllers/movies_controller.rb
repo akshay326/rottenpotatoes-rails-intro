@@ -14,6 +14,10 @@ class MoviesController < ApplicationController
       params[rating] = true
     end
 
+    # update session from incoming params
+    session[:checked_ratings] = @checked_ratings if @checked_ratings
+    session[:ordered_by] = @ordered_by if @ordered_by
+
     if params[:sort]
       @movies = Movie.order(params[:sort])
     else
