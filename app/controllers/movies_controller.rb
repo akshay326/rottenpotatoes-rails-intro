@@ -19,6 +19,10 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.where(:rating => @checked_ratings)
     end
+
+    if params[:sort] && @checked_ratings != @all_ratings
+      @movies = Movie.where(:rating => @checked_ratings).order(params[:sort])
+    end
   end
 
   def new
@@ -51,7 +55,11 @@ class MoviesController < ApplicationController
 
   def check
     if params[:ratings]
-      params[:ratings].keys
+      if params[:ratings].kind_of?(Array)
+        params[:ratings]
+      else
+        params[:ratings].keys
+      end
     else
       @all_ratings
     end
